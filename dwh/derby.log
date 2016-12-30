@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Fri Dec 30 17:34:37 CST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0159-4f14-c2eb-00000d10a868 
-on database directory memory:/Users/hongjiayong/dwh/testdb with class loader sun.misc.Launcher$AppClassLoader@50134894 
+Fri Dec 30 18:19:39 CST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0159-4f3d-fa89-000005874530 
+on database directory memory:/Users/hongjiayong/Desktop/dataWareHouse/dwh/testdb with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/Users/hongjiayong/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_101-b13
-user.dir=/Users/hongjiayong/dwh
+user.dir=/Users/hongjiayong/Desktop/dataWareHouse/dwh
 os.name=Mac OS X
 os.arch=x86_64
 os.version=10.12.2

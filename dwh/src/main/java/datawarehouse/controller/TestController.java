@@ -38,22 +38,14 @@ public class TestController {
         Class.forName(driverName);
         Connection connection = null;
 
-        connection = DriverManager.getConnection("jdbc:hive2://10.60.42.201:10000/comment;transportMode=http", "root", "ibmclub");
+        connection = DriverManager.getConnection("jdbc:hive2://10.60.42.201:10000/comment", "root", "ibmclub");
         Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM actor LIMIT 20");
+        ResultSet rs = statement.executeQuery("SELECT * FROM allcomments LIMIT 20");
         while (rs.next()){
             System.out.println(rs.getString("id"));
         }
 
         connection.close();
-
-
-//        String host = "10.60.42.201";
-//        int port = 10000;
-
-//        TTransport transport = new TSocket(host, port);
-//        TProtocol protocol = new TBinaryProtocol(transport);
-//        HiveAuthFactory hiveAuthFactory;
 
         return "hehe";
     }
