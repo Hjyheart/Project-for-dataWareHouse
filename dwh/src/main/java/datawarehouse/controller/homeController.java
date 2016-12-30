@@ -9,9 +9,66 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class homeController {
 
+    /**
+     * 主页
+     * @return
+     */
     @RequestMapping("/home")
     public String home(){
         return "home";
     }
 
+    /**
+     * 按时间查询
+     * @return
+     */
+    @RequestMapping("/time")
+    public String time(){
+        return "time :: time";
+    }
+
+    /**
+     * 按名称查找
+     * @return
+     */
+    @RequestMapping("/name")
+    public String name(){
+        return "name :: name";
+    }
+
+    /**
+     * 按导演查找
+     * @return
+     */
+    @RequestMapping("/director")
+    public String director(){
+        return "director :: director";
+    }
+
+    /**
+     * 按演员查找
+     * @return
+     */
+    @RequestMapping("/actor")
+    public String actor(){
+        return "actor :: actor";
+    }
+
+    /**
+     * 按类别查找
+     * @return
+     */
+    @RequestMapping("/category")
+    public String category(){
+        return "category :: category";
+    }
+
+    /**
+     * 按组合查找
+     * @return
+     */
+    @RequestMapping("/combine")
+    public String combine(){
+        return "combine :: combine";
+    }
 }

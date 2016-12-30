@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Home</title>
@@ -12,94 +12,63 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
     <script src="/js/mdui.min.js"></script>
     <script src="/nv.d3.min.js"></script>
-    <style>
-        text {
-            font: 12px sans-serif;
-        }
-        svg {
-            display: block;
-        }
-        html, body, svg {
-            margin: 0px;
-            padding: 0px;
-            height: 100%;
-            width: 100%;
-        }
-    </style>
+    <script src="/homeCtrl.js"></script>
 </head>
-<body>
-<svg id="test1"></svg>
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-blue mdui-theme-accent-blue" ng-app="myApp" ng-controller="homeCtrl">
+<header class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#main-drawer'}"><i class="mdui-icon material-icons">&#xe5d2;</i></span>
+        <a href="/home" class="mdui-typo-headline mdui-hidden-xs">电影小屋</a>
+        <a href="/home" class="mdui-typo-title">数据仓库课设</a>
+        <div class="mdui-toolbar-spacer"></div>
+    </div>
+</header>
 
-<script>
+<div class="mdui-drawer mdui-drawer-open" id="main-drawer">
+    <div class="mdui-list" mdui-collapse="{accordion: true}">
 
-    nv.addGraph({
-        generate: function() {
-            var width = nv.utils.windowSize().width - 40,
-                height = nv.utils.windowSize().height - 40;
+        <div class="mdui-collapse-item mdui-collapse-item-close">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">&#xe569;</i>
+                <div class="mdui-list-item-content">开始使用</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe313;</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list">
+                <a id="time" href="#" ng-click="toTime()" class="mdui-list-item mdui-ripple mdui-list-item-active">时间</a>
+                <a id="name" href="#" ng-click="toName()" class="mdui-list-item mdui-rupple ">名称</a>
+                <a id="director" ng-click="toDirector()" class="mdui-list-item mdui-ripple">导演</a>
+                <a id="actor" ng-click="toActor()" class="mdui-list-item mdui-ripple">演员</a>
+                <a id="category" ng-click="toCategory()" class="mdui-list-item mdui-ripple">类别</a>
+                <a id="combine" ng-click="toCombine()" class="mdui-list-item mdui-ripple">组合查询</a>
+            </div>
+        </div>
+    </div>
 
-            var chart = nv.models.line()
-                .width(width)
-                .height(height)
-                .margin({top: 20, right: 20, bottom: 20, left: 20});
 
-            chart.dispatch.on('renderEnd', function(){
-                console.log('render complete');
-            });
+</div>
 
-            d3.select('#test1')
-                .attr('width', width)
-                .attr('height', height)
-                .datum(sinAndCos())
-                .call(chart);
+<div class="mudi-container doc-container">
 
-            return chart;
-        },
-        callback: function(graph) {
-            window.onresize = function() {
-                var width = nv.utils.windowSize().width - 40,
-                    height = nv.utils.windowSize().height - 40,
-                    margin = graph.margin();
+    <div id="content">
+        <div th:include="time :: time"></div>
+    </div>
 
-                if (width < margin.left + margin.right + 20)
-                    width = margin.left + margin.right + 20;
+    <div class="doc-footer-nav mdui-color-theme">
+        <div class="mdui-container">
+            <div class="mdui-row">
 
-                if (height < margin.top + margin.bottom + 20)
-                    height = margin.top + margin.bottom + 20;
+            </div>
+        </div>
+    </div>
 
-                graph.width(width).height(height);
+</div>
 
-                d3.select('#test1')
-                    .attr('width', width)
-                    .attr('height', height)
-                    .call(graph);
-            };
-        }
-    });
 
-    function sinAndCos() {
-        var sin = [],
-            cos = [];
 
-        for (var i = 0; i < 100; i++) {
-            sin.push({x: i, y: Math.sin(i/10)});
-            cos.push({x: i, y: .5 * Math.cos(i/10)});
-        }
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
 
-        return [
-            {
-                values: sin,
-                key: "Sine Wave",
-                color: "#ff7f0e"
-            },
-            {
-                values: cos,
-                key: "Cosine Wave",
-                color: "#2ca02c",
-                strokeWidth: 3
-            }
-        ];
-    }
-
+    /*]]>*/
 </script>
 </body>
 </html>
