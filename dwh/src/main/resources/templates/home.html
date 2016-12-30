@@ -6,13 +6,25 @@
 
     <link rel="stylesheet" href="/css/mdui.min.css"/>
     <link rel="stylesheet" href="/nv.d3.min.css"/>
+    <link rel="stylesheet" href="http://mdui-org.b0.upaiyun.com/docs/assets/css/docs.css"/>
 
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0-rc.2/angular.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
     <script src="/js/mdui.min.js"></script>
     <script src="/nv.d3.min.js"></script>
+    <script src="/stream_layers.js"></script>
     <script src="/homeCtrl.js"></script>
+
+    <style>
+        svg{
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
 </head>
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-blue mdui-theme-accent-blue" ng-app="myApp" ng-controller="homeCtrl">
 <header class="mdui-appbar mdui-appbar-fixed">
@@ -27,7 +39,7 @@
 <div class="mdui-drawer mdui-drawer-open" id="main-drawer">
     <div class="mdui-list" mdui-collapse="{accordion: true}">
 
-        <div class="mdui-collapse-item mdui-collapse-item-close">
+        <div class="mdui-collapse-item mdui-collapse-item-open">
             <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">&#xe569;</i>
                 <div class="mdui-list-item-content">开始使用</div>
@@ -47,18 +59,14 @@
 
 </div>
 
-<div class="mudi-container doc-container">
+<div style="padding: 60px;" class="mdui-container doc-container">
 
     <div id="content">
         <div th:include="time :: time"></div>
     </div>
 
-    <div class="doc-footer-nav mdui-color-theme">
-        <div class="mdui-container">
-            <div class="mdui-row">
-
-            </div>
-        </div>
+    <div id="compare" style="height: 600px">
+        <svg></svg>
     </div>
 
 </div>
@@ -67,7 +75,73 @@
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-
+//    var test_data = stream_layers(2,128,.1).map(function(data, i) {
+//        return {
+//            key: (i == 1) ? 'Non-stackable Stream' + i: 'Stream' + i,
+//            nonStackable: (i == 1),
+//            values: data
+//        };
+//    });
+    var test_data = [
+        {
+            key: 'test1',
+            nonStackable: true,
+            values:[
+                {
+                    x: '0',
+                    y: '0.2'
+                },
+                {
+                    x: '1',
+                    y: '0.6'
+                }
+            ]
+        },
+        {
+            key: 'test2',
+            nonStackable: true,
+            values:[
+                {
+                    x: '0',
+                    y: '0.4'
+                },
+                {
+                    x: '1',
+                    y: '0.3'
+                }
+            ]
+        }
+    ];
+    nv.addGraph({
+        generate: function() {
+            var width = $('#compare').clientWidth - 80,
+                height = $('#compare').clientHeight;
+            var chart = nv.models.multiBarChart()
+                    .width(width)
+                    .height(height)
+                    .stacked(true)
+                ;
+            chart.dispatch.on('renderEnd', function(){
+                console.log('Render Complete');
+            });
+            var svg = d3.select('#compare svg').datum(test_data);
+            console.log('calling chart');
+            svg.transition().duration(0).call(chart);
+            return chart;
+        },
+        callback: function(graph) {
+            nv.utils.windowResize(function() {
+                var width = nv.utils.windowSize().width;
+                var height = nv.utils.windowSize().height;
+                graph.width(width).height(height);
+                d3.select('#compare svg')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .transition().duration(0)
+                    .call(graph);
+            });
+        }
+    });
     /*]]>*/
 </script>
 </body>
