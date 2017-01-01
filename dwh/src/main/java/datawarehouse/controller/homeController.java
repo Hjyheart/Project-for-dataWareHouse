@@ -10,21 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class homeController {
 
     /**
-     * 主页
-     * @return
-     */
-    @RequestMapping("/home")
-    public String home(){
-        return "home";
-    }
-
-    /**
      * 按时间查询
      * @return
      */
     @RequestMapping("/time")
     public String time(){
-        return "time :: time";
+        return "time";
     }
 
     /**
@@ -33,7 +24,7 @@ public class homeController {
      */
     @RequestMapping("/name")
     public String name(){
-        return "name :: name";
+        return "name";
     }
 
     /**
@@ -42,7 +33,7 @@ public class homeController {
      */
     @RequestMapping("/director")
     public String director(){
-        return "director :: director";
+        return "director";
     }
 
     /**
@@ -51,7 +42,7 @@ public class homeController {
      */
     @RequestMapping("/actor")
     public String actor(){
-        return "actor :: actor";
+        return "actor";
     }
 
     /**
@@ -60,7 +51,7 @@ public class homeController {
      */
     @RequestMapping("/category")
     public String category(){
-        return "category :: category";
+        return "category";
     }
 
     /**
@@ -69,6 +60,6 @@ public class homeController {
      */
     @RequestMapping("/combine")
     public String combine(){
-        return "combine :: combine";
+        return "combine";
     }
 }
