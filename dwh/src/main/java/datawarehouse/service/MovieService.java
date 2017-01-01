@@ -22,9 +22,9 @@ public interface MovieService {
 
     List<Movie> findMovieByDirectorName(String directorName) throws SQLException;
 
-//    List<Movie> findByActorName(String actorName) throws SQLException;
-
     List<Map> findByActorName(String actorName) throws SQLException;
 
     List<Map> findByTypeName(String typeName) throws SQLException;
+
+    int countByTypeName(String name) throws SQLException;
 }

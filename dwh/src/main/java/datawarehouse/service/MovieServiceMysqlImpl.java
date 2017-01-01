@@ -210,5 +210,19 @@ public class MovieServiceMysqlImpl implements MovieService {
         connection.close();
         return movies;
     }
+
+    @Override
+    public int countByTypeName(String name) throws SQLException {
+        Connection connection = DataConnection.getConnection("mysql");
+        String str = "select count(*) from movie_type join type on type.id=movie_type.typeid where type.name=?";
+        PreparedStatement statement = connection.prepareStatement(str);
+        statement.setString(1, name);
+        ResultSet resultSet = statement.executeQuery();
+
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        connection.close();
+        return count;
+    }
 }
 

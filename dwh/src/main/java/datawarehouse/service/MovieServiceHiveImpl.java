@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -144,12 +145,63 @@ public class MovieServiceHiveImpl implements MovieService {
 
     @Override
     public List<Map> findByActorName(String actorName) throws SQLException {
-        return null;
+        Connection connection = DataConnection.getConnection("hive");
+        String str = "select movies.title, actors.name from movies, actors, movie_actor " +
+                "where actors.name LIKE ? and actors.id=movie_actor.actor_id and movie_actor.movie_id=movies.id";
+        PreparedStatement statement = connection.prepareStatement(str);
+
+        statement.setString(1, "%"+actorName+"%");
+        ResultSet resultSet = statement.executeQuery();
+
+        List<Map> movies = new ArrayList<>();
+        while (resultSet.next()) {
+            String title = resultSet.getString(1);
+            String actor = resultSet.getString(2);
+
+            Map map = new HashMap();
+            map.put("movie_title", title);
+            map.put("actor_name", actor);
+            movies.add(map);
+        }
+        connection.close();
+        return movies;
     }
 
     @Override
     public List<Map> findByTypeName(String typeName) throws SQLException {
-        return null;
+        Connection connection = DataConnection.getConnection("hive");
+        String str = "select count(*) from movie, type, movie_type " +
+                "where movie_type.typeid=type.id and type.name=? and movie.id=movie_type.movie_id";
+        PreparedStatement statement = connection.prepareStatement(str);
+
+        statement.setString(1, typeName);
+        ResultSet resultSet = statement.executeQuery();
+
+        List<Map> movies = new ArrayList<>();
+        while (resultSet.next()) {
+            String title = resultSet.getString(1);
+
+            Map map = new HashMap();
+            map.put("title", title);
+            movies.add(map);
+        }
+        connection.close();
+        return movies;
+    }
+
+
+    @Override
+    public int countByTypeName(String name) throws SQLException {
+        Connection connection = DataConnection.getConnection("hive");
+        String str = "select count(*) from movie_type join type on type.id=movie_type.typeid where type.name=?";
+        PreparedStatement statement = connection.prepareStatement(str);
+        statement.setString(1, name);
+        ResultSet resultSet = statement.executeQuery();
+
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        connection.close();
+        return count;
     }
 }
 
