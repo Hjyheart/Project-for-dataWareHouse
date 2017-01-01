@@ -43,7 +43,11 @@ public class MovieController {
         Map map = new HashMap();
         map.put("count", count);
         map.put("mysqlTime", timer.getRunTime());
-
+        ArrayList<Integer> months = new ArrayList<>();
+        for (int i = 1; i <= 12; i++){
+            months.add(mysqlService.countMovieByTime(year, i));
+        }
+        map.put("months", months);
         return map;
     }
 
@@ -108,6 +112,20 @@ public class MovieController {
         QueryTimer timer = new QueryTimer();
         timer.start();
         List<Map> movies = mysqlService.findByActorName(name);
+        timer.end();
+
+        Map map = new HashMap();
+        map.put("movie", movies);
+        map.put("mysqlTime", timer.getRunTime());
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping("/findByDirectorName")
+    public Map findByDirectorName(@RequestParam("name") String name) throws SQLException {
+        QueryTimer timer = new QueryTimer();
+        timer.start();
+        List<Movie> movies = mysqlService.findMovieByDirectorName(name);
         timer.end();
 
         Map map = new HashMap();

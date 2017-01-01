@@ -145,8 +145,8 @@ public class MovieServiceMysqlImpl implements MovieService {
     @Override
     public List<Movie> findMovieByDirectorName(String directorName) throws SQLException {
         Connection connection = DataConnection.getConnection("mysql");
-        String str = "select movie.title, movie.score from director join movie on director.id = movie.director_id " +
-                "where movie.title=?";
+        String str = "select movies.title from directors join movies on directors.id = movies.director_id " +
+                "where movies.title=?";
         PreparedStatement statement = connection.prepareStatement(str);
 
         statement.setString(1, directorName);

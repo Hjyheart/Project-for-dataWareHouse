@@ -68,7 +68,7 @@
         <h1 class="doc-title mdui-typo mdui-text-color-theme">按名称查找</h1>
         <div class="doc-chapter">
             <div class="mdui-row">
-                <div class="mdui-col-xs-4 mdui-textfield mdui-textfield-floating-label">
+                <div class="mdui-col-xs-12 mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">名称</label>
                     <input class="mdui-textfield-input" type="text" id="movie-name"/>
                 </div>
@@ -95,19 +95,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>无敌</td>
-                        <td>100</td>
-                        <td>100</td>
-                        <td>20</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>哈哈</td>
-                        <td>200</td>
-                        <td>100</td>
-                        <td>20</td>
+                    <tr ng-repeat="result in results">
+                        <td>{{$index + 1}}</td>
+                        <td>{{result.name}}</td>
+                        <td>{{result.count}}</td>
+                        <td>{{result.mysqlTime}}</td>
+                        <td>{{result.hiveTime}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -115,7 +108,7 @@
             <ul class="mdui-list" mdui-collapse="{accordion: true}" style="overflow-y: scroll; max-height: 400px">
                 <li class="mdui-collapse-item mdui-collapse-item-close">
                     <div class="mdui-collapse-item-header mdui-list-item">
-                        <div class="mdui-list-item-content">2014</div>
+                        <div class="mdui-list-item-content">结果</div>
                         <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe313;</i>
                     </div>
                     <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
@@ -125,17 +118,11 @@
                                     <thead>
                                     <tr>
                                         <th>电影名称</th>
-                                        <th>上映时间</th>
-                                        <th>导演</th>
-                                        <th>评分</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>2014</td>
-                                        <td>200</td>
-                                        <td>100</td>
+                                    <tr ng-repeat="movie in movies">
+                                        <td>{{movie.title}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -152,74 +139,7 @@
         <svg></svg>
     </div>
     <hr/>
-    <div id="chart1" style="height: 600px">
-        <svg></svg>
-    </div>
 
 </div>
-<script>
-    // like补全
-//    $('.ui .search')
-//        .search({
-//            apiSettings: {
-//                onResponse: function (res) {
-//                    var response = {
-//                        results : {}
-//                    };
-//
-//                    $.each(res.items, function(index, item){
-//                        response.results.push({index : item});
-//                    });
-//
-//                    return response;
-//                },
-//                url: '//localhost:8080/query{query}',
-//            },
-//            minCharacters : 1
-//        });
-
-//    $(document).ready(function () {
-//        $('.ui.search')
-//            .search({
-//                type          : 'category',
-//                minCharacters : 3,
-//                apiSettings   : {
-//                    onResponse: function(githubResponse) {
-//                        var
-//                            response = {
-//                                results : {}
-//                            }
-//                            ;
-//                        // translate GitHub API response to work with search
-//                        $.each(githubResponse.items, function(index, item) {
-//                            var
-//                                language   = item.language || 'Unknown',
-//                                maxResults = 8
-//                                ;
-//                            if(index >= maxResults) {
-//                                return false;
-//                            }
-//                            // create new language category
-//                            if(response.results[language] === undefined) {
-//                                response.results[language] = {
-//                                    name    : language,
-//                                    results : []
-//                                };
-//                            }
-//                            // add result to category
-//                            response.results[language].results.push({
-//                                title       : item.name,
-//                                description : item.description,
-//                                url         : item.html_url
-//                            });
-//                        });
-//                        return response;
-//                    },
-//                    url: '//api.github.com/search/repositories?q={query}'
-//                }
-//            })
-//        ;
-//    });
-</script>
 </body>
 </html>

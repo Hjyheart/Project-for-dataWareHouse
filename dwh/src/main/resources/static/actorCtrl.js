@@ -1,8 +1,8 @@
 /**
  * Created by hongjiayong on 2017/1/1.
  */
-app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
-    var name_data = [
+app.controller('actorCtrl', ['$scope', '$http', function ($scope, $http) {
+    var actor_data = [
         {
             key: 'mysql',
             nonStackable: true,
@@ -16,7 +16,7 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
     ];
     $scope.results = [];
     $scope.movies = null;
-    $scope.movieName = '';
+    $scope.actorName = '';
 
     this.$onInit = function () {
 
@@ -24,8 +24,8 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
 
     // 绘制比较图表
     function makeChartTimeCompare(objS, objH) {
-        name_data[0].values.push(objS);
-        name_data[1].values.push(objH);
+        actor_data[0].values.push(objS);
+        actor_data[1].values.push(objH);
 
         nv.addGraph({
             generate: function() {
@@ -39,7 +39,7 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
                 chart.dispatch.on('renderEnd', function(){
                     console.log('Render Complete');
                 });
-                var svg = d3.select('#compare svg').datum(name_data);
+                var svg = d3.select('#compare svg').datum(actor_data);
                 console.log('calling chart');
                 svg.transition().duration(0).call(chart);
                 return chart;
@@ -59,21 +59,20 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
         });
     };
 
-
-    // 按名称查找
-    $scope.nameSearch = function () {
-        if ($('#movie-name').val() !== ''){
+    // 按演员查询
+    $scope.actorSearch = function () {
+        if ($('#actor-name').val() !== ''){
             $http({
                 method: 'POST',
-                url: 'http://localhost:8080/movie/findByName',
+                url: 'http://localhost:8080/movie/findByActorName',
                 params:{
-                    'name': $('#movie-name').val()
+                    'name': $('#actor-name').val()
                 }
             }).then( res=>{
                 console.log(res.data);
                 $scope.movies = res.data.movie;
                 var result = {
-                    'name': $('#movie-name').val(),
+                    'name': $('#actor-name').val(),
                     'count': res.data.movie.length,
                     'mysqlTime': res.data.mysqlTime,
                     'hiveTime' : 800
@@ -89,11 +88,10 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
                         y: result.hiveTime
                     }
                 );
-                $scope.movieName = $('#movie-name').val();
+                $scope.actorName = $('#actor-name').val();
             }).catch( err=>{
                 console.log(err);
             })
         }
     };
-
 }]);

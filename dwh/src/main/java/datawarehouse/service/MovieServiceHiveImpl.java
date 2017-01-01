@@ -122,7 +122,7 @@ public class MovieServiceHiveImpl implements MovieService {
     @Override
     public List<Movie> findMovieByDirectorName(String directorName) throws SQLException {
         Connection connection = DataConnection.getConnection("hive");
-        String str = "select movie.title, movie.score from director join movie on director.id = movie.director_id " +
+        String str = "select movie.title, movie.score from directors join movie on directors.id = movie.director_id " +
                 "where movie.title=?";
         PreparedStatement statement = connection.prepareStatement(str);
 

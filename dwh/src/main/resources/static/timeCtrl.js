@@ -3,15 +3,28 @@
  */
 var app = angular.module('myApp',[]);
 app.controller("timeCtrl", ['$scope', '$http', function($scope, $http){
-    var time_data = [];
+    var time_data = [
+        {
+            key: 'mysql',
+            nonStackable: true,
+            values: []
+        },
+        {
+            key: 'hive',
+            nonStackable: true,
+            values: []
+        }
+    ];
+    $scope.results = [];
 
     this.$onInit = function () {
 
     };
 
     // 绘制比较图表
-    function makeChartTimeCompare(data, obj) {
-        data.push(obj);
+    function makeChartTimeCompare(objS, objH) {
+        time_data[0].values.push(objS);
+        time_data[1].values.push(objH);
 
         nv.addGraph({
             generate: function() {
@@ -25,7 +38,7 @@ app.controller("timeCtrl", ['$scope', '$http', function($scope, $http){
                 chart.dispatch.on('renderEnd', function(){
                     console.log('Render Complete');
                 });
-                var svg = d3.select('#compare svg').datum(data);
+                var svg = d3.select('#compare svg').datum(time_data);
                 console.log('calling chart');
                 svg.transition().duration(0).call(chart);
                 return chart;
@@ -69,37 +82,114 @@ app.controller("timeCtrl", ['$scope', '$http', function($scope, $http){
 
     // 按时间查找
     $scope.timeSearch = function () {
-        makeChartTimeCompare(time_data, {
-            key: 'test2',
-            nonStackable: true,
-            values:[
-                {
-                    x: '0',
-                    y: '0.4'
-                },
-                {
-                    x: '1',
-                    y: '0.3'
+        if ($('#year').val() !== '' && $('#month').val() !== '' && $('#day').val() !== ''){
+            $http({
+                method: 'GET',
+                url: 'http://localhost:8080/movie/findByDay',
+                params:{
+                    'year': $('#year').val(),
+                    'month': $('#month').val(),
+                    'day': $('#day').val()
                 }
-            ]
-        });
+            }).then( res=>{
+                console.log(res.data);
+                var result = {
+                    'count': res.data.count,
+                    'mysqlTime': res.data.mysqlTime,
+                    'hiveTime' : 800,
+                    'date': $('#year').val() + '/' + $('#month').val() + '/' + $('#day').val()
+                };
+                $scope.results.push(result);
+                makeChartTimeCompare(
+                    {
+                        x: $scope.results.length,
+                        y: result.mysqlTime
+                    },
+                    {
+                        x: $scope.results.length,
+                        y: result.hiveTime
+                    });
+            }).catch( err=>{
+                console.log(err);
+            })
+        }else if($('#year').val() !== '' && $('#month').val() !== ''){
+            $http({
+                method: 'GET',
+                url: 'http://localhost:8080/movie/findByMonth',
+                params:{
+                    'year': $('#year').val(),
+                    'month': $('#month').val(),
+                }
+            }).then( res=>{
+                console.log(res.data);
+                var result = {
+                    'count': res.data.count,
+                    'mysqlTime': res.data.mysqlTime,
+                    'hiveTime' : 800,
+                    'date': $('#year').val() + '/' + $('#month').val()
+                };
+                $scope.results.push(result);
+                makeChartTimeCompare(
+                    {
+                        x: $scope.results.length,
+                        y: result.mysqlTime
+                    },
+                    {
+                        x: $scope.results.length,
+                        y: result.hiveTime
+                    });
+            }).catch( err=>{
+                console.log(err);
+            })
+        }else if($('#year').val() !== ''){
+            $http({
+                method: 'GET',
+                url: 'http://localhost:8080/movie/findByYear',
+                params:{
+                    'year': $('#year').val(),
+                }
+            }).then( res=>{
+                console.log(res.data);
+                var result = {
+                    'count': res.data.count,
+                    'mysqlTime': res.data.mysqlTime,
+                    'hiveTime' : 800,
+                    'date': $('#year').val()
+                };
+                $scope.results.push(result);
+                makeChartTimeCompare(
+                    {
+                        x: $scope.results.length,
+                        y: result.mysqlTime
+                    },
+                    {
+                        x: $scope.results.length,
+                        y: result.hiveTime
+                    });
 
-        var data = [
-            {key: "一月", y: 5, color: "#5F5"},
-            {key: "二月", y: 2},
-            {key: "三月", y: 9},
-            {key: "四月", y: 7},
-            {key: "五月", y: 4},
-            {key: "六月", y: 3},
-            {key: "七月", y: 8},
-            {key: "八月", y: 50},
-            {key: "九月", y: 53},
-            {key: "十月", y: 5},
-            {key: "十一月", y: 43},
-            {key: "十二月", y: 32}
-        ];
+                var months = [
+                    {key: "一月", y: res.data.months[0], color: "#5F5"},
+                    {key: "二月", y: res.data.months[1]},
+                    {key: "三月", y: res.data.months[2]},
+                    {key: "四月", y: res.data.months[3]},
+                    {key: "五月", y: res.data.months[4]},
+                    {key: "六月", y: res.data.months[5]},
+                    {key: "七月", y: res.data.months[6]},
+                    {key: "八月", y: res.data.months[7]},
+                    {key: "九月", y: res.data.months[8]},
+                    {key: "十月", y: res.data.months[9]},
+                    {key: "十一月", y: res.data.months[10]},
+                    {key: "十二月", y: res.data.months[11]}
+                ];
+                makeChartTimeMonth(months)
 
-        makeChartTimeMonth(data);
+            }).catch( err=>{
+                console.log(err);
+            })
+        }
+
+
+
     };
 
 
