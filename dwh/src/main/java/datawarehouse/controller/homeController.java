@@ -62,4 +62,9 @@ public class homeController {
     public String combine(){
         return "combine";
     }
+
+    @RequestMapping("/combineResult")
+    public String combineResult(){
+        return "combineResult";
+    }
 }
