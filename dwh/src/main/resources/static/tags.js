@@ -8,6 +8,7 @@ var lastb = 1;
 var distr = true;
 var tspeed=10;
 var size=250;
+var yunflag = 0;
 
 var mouseX=0;
 var mouseY=0;
@@ -17,7 +18,7 @@ var howElliptical=1;
 var aA=null;
 var oDiv=null;
 
-window.onload=function ()
+function start()
 {
 	var i=0;
 	var oTag=null;
@@ -61,7 +62,7 @@ window.onload=function ()
 		mouseY/=5;
 	};
 	
-	setInterval(update, 30);
+	yunflag = setInterval(update, 30);
 };
 
 function update()

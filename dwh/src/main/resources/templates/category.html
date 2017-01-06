@@ -55,6 +55,7 @@
                 <a id="actor" href="/actor" class="mdui-list-item mdui-ripple">演员</a>
                 <a id="category" href="/category" class="mdui-list-item mdui-ripple mdui-list-item-active">类别</a>
                 <a id="combine" href="/combine" class="mdui-list-item mdui-ripple">组合查询</a>
+                <a id="yun" href="/yun" class="mdui-list-item mdui-ripple">词频查询</a>
             </div>
         </div>
     </div>
@@ -117,12 +118,16 @@
                                 <table class="mdui-table">
                                     <thead>
                                     <tr>
-                                        <th>演员</th>
+                                        <th>电影名称</th>
+                                        <th>类别</th>
+                                        <th>评分</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="movie in movies">
                                         <td>{{movie.title}}</td>
+                                        <td>{{movie.type}}</td>
+                                        <td>{{movie.score}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -64,7 +64,7 @@ app.controller('directorCtrl', ['$scope', '$http', function ($scope, $http) {
         if ($('#director-name').val() !== ''){
             $http({
                 method: 'GET',
-                url: 'http://localhost:8080/movie/findByActorName',
+                url: 'http://localhost:8080/movie/findByDirectorName',
                 params:{
                     'name': $('#director-name').val()
                 }
@@ -75,7 +75,7 @@ app.controller('directorCtrl', ['$scope', '$http', function ($scope, $http) {
                     'name': $('#director-name').val(),
                     'count': res.data.movie.length,
                     'mysqlTime': res.data.mysqlTime,
-                    'hiveTime' : 800
+                    'hiveTime' : res.data.hiveTime
                 };
                 $scope.results.push(result);
                 makeChartTimeCompare(

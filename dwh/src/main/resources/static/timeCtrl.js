@@ -96,7 +96,7 @@ app.controller("timeCtrl", ['$scope', '$http', function($scope, $http){
                 var result = {
                     'count': res.data.count,
                     'mysqlTime': res.data.mysqlTime,
-                    'hiveTime' : 800,
+                    'hiveTime' : res.data.hiveTime,
                     'date': $('#year').val() + '/' + $('#month').val() + '/' + $('#day').val()
                 };
                 $scope.results.push(result);
@@ -125,7 +125,7 @@ app.controller("timeCtrl", ['$scope', '$http', function($scope, $http){
                 var result = {
                     'count': res.data.count,
                     'mysqlTime': res.data.mysqlTime,
-                    'hiveTime' : 800,
+                    'hiveTime' : res.data.hiveTime,
                     'date': $('#year').val() + '/' + $('#month').val()
                 };
                 $scope.results.push(result);
@@ -153,7 +153,7 @@ app.controller("timeCtrl", ['$scope', '$http', function($scope, $http){
                 var result = {
                     'count': res.data.count,
                     'mysqlTime': res.data.mysqlTime,
-                    'hiveTime' : 800,
+                    'hiveTime' : res.data.hiveTime,
                     'date': $('#year').val()
                 };
                 $scope.results.push(result);

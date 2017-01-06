@@ -75,7 +75,7 @@ app.controller('actorCtrl', ['$scope', '$http', function ($scope, $http) {
                     'name': $('#actor-name').val(),
                     'count': res.data.movie.length,
                     'mysqlTime': res.data.mysqlTime,
-                    'hiveTime' : 800
+                    'hiveTime' : res.data.hiveTime
                 };
                 $scope.results.push(result);
                 makeChartTimeCompare(

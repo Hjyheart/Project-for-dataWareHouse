@@ -40,7 +40,7 @@ app.controller('combineCtrl', ['$scope', '$http', function ($scope, $http) {
                 chart.dispatch.on('renderEnd', function(){
                     console.log('Render Complete');
                 });
-                var svg = d3.select('#compare svg').datum(actor_data);
+                var svg = d3.select('#compare svg').datum(combine_data);
                 console.log('calling chart');
                 svg.transition().duration(0).call(chart);
                 return chart;
@@ -62,7 +62,44 @@ app.controller('combineCtrl', ['$scope', '$http', function ($scope, $http) {
 
     // 混合查找
     $scope.combineSearch = function () {
-
-    };
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/movie/combine',
+            params:{
+                'year': $('#year').val() === '' ? -1 : $('#year').val(),
+                'month': $('#month').val() === '' ? -1 : $('#month').val(),
+                'day': $('#day').val() === '' ? -1 : $('#day').val(),
+                'season': $('#season').val() === '' ? -1 : $('#season').val(),
+                'weekday': $('#week').val() === '' ? -1 : $('#week').val(),
+                'director': $('#director-name').val(),
+                'actor': $('#actor-name').val(),
+                'name': $('#movie-name').val(),
+                'type': $('#category-name').val()
+            }
+        }).then( res=>{
+            console.log(res.data);
+            $scope.movies = res.data.movie;
+            var result = {
+                'mysqlTime': res.data.mysqlTime,
+                'hiveTime' : res.data.hiveTime,
+                'date': $('#year').val() + '/' + $('#month').val() + '/' + $('#day').val(),
+                'count': res.data.movie.length
+            };
+            $scope.results.push(result);
+            makeChartTimeCompare(
+                {
+                    x: $scope.results.length,
+                    y: result.mysqlTime
+                },
+                {
+                    x: $scope.results.length,
+                    y: result.hiveTime
+                }
+            );
+            $scope.movieName = $('#movie-name').val();
+        }).catch( err=>{
+            console.log(err);
+        })
+    }
 
 }]);

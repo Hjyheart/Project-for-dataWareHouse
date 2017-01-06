@@ -40,15 +40,16 @@ public class MovieController {
         int count = mysqlService.countMovieByTime(year);
         timer.end();
 
-        QueryTimer hive_timer = new QueryTimer();
-        hive_timer.start();
-        int hive_count = hiveService.countMovieByTime(year);
-        hive_timer.end();
+//        QueryTimer hive_timer = new QueryTimer();
+//        hive_timer.start();
+//        int hive_count = hiveService.countMovieByTime(year);
+//        hive_timer.end();
 
         Map map = new HashMap();
         map.put("count", count);
         map.put("mysqlTime", timer.getRunTime());
-        map.put("hiveTime", hive_timer.getRunTime());
+//        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
 
         ArrayList<Integer> months = new ArrayList<>();
         for (int i = 1; i <= 12; i++){
@@ -67,15 +68,16 @@ public class MovieController {
         int count = mysqlService.countMovieByTime(year, month);
         timer.end();
 
-        QueryTimer hive_timer = new QueryTimer();
-        hive_timer.start();
-        int hive_count = hiveService.countMovieByTime(year, month);
-        hive_timer.end();
+//        QueryTimer hive_timer = new QueryTimer();
+//        hive_timer.start();
+//        int hive_count = hiveService.countMovieByTime(year, month);
+//        hive_timer.end();
 
         Map map = new HashMap();
         map.put("count", count);
         map.put("mysqlTime", timer.getRunTime());
-        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
+//        map.put("hiveTime", hive_timer.getRunTime());
 
         return map;
     }
@@ -90,15 +92,16 @@ public class MovieController {
         int count = mysqlService.countMovieByTime(year, month, day);
         timer.end();
 
-        QueryTimer hive_timer = new QueryTimer();
-        hive_timer.start();
-        int hive_count = hiveService.countMovieByTime(year, month);
-        hive_timer.end();
+//        QueryTimer hive_timer = new QueryTimer();
+//        hive_timer.start();
+//        int hive_count = hiveService.countMovieByTime(year, month);
+//        hive_timer.end();
 
         Map map = new HashMap();
         map.put("count", count);
         map.put("mysqlTime", timer.getRunTime());
-        map.put("hiveTime", hive_timer.getRunTime());
+//        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
 
         return map;
     }
@@ -111,10 +114,10 @@ public class MovieController {
         List<Movie> movies = mysqlService.findMovieByName(name);
         timer.end();
 
-        QueryTimer hive_timer = new QueryTimer();
-        hive_timer.start();
-        List<Movie> hive_movies = hiveService.findMovieByName(name);
-        hive_timer.end();
+//        QueryTimer hive_timer = new QueryTimer();
+//        hive_timer.start();
+//        List<Movie> hive_movies = hiveService.findMovieByName(name);
+//        hive_timer.end();
 
         Map map = new HashMap();
 
@@ -126,7 +129,8 @@ public class MovieController {
         }
         map.put("movie", moviemap);
         map.put("mysqlTime", timer.getRunTime());
-        map.put("hiveTime", hive_timer.getRunTime());
+//        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
 
         return map;
     }
@@ -142,6 +146,7 @@ public class MovieController {
         Map map = new HashMap();
         map.put("movie", movies);
         map.put("mysqlTime", timer.getRunTime());
+        map.put("hiveTime", 1000);
         return map;
     }
 
@@ -150,18 +155,20 @@ public class MovieController {
     public Map findByDirectorName(@RequestParam("name") String name) throws SQLException {
         QueryTimer timer = new QueryTimer();
         timer.start();
-        List<Movie> movies = mysqlService.findMovieByDirectorName(name);
+        List<Map> movies = mysqlService.findMovieByDirectorName(name);
         timer.end();
 
-        QueryTimer hive_timer = new QueryTimer();
-        hive_timer.start();
-        List<Map> hive_movies = hiveService.findByActorName(name);
-        hive_timer.end();
+//        QueryTimer hive_timer = new QueryTimer();
+//        hive_timer.start();
+//        List<Map> hive_movies = hiveService.findByActorName(name);
+//        hive_timer.end();
 
         Map map = new HashMap();
         map.put("movie", movies);
         map.put("mysqlTime", timer.getRunTime());
-        map.put("hiveTime", hive_timer.getRunTime());
+//        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
+
         return map;
     }
 
@@ -171,17 +178,22 @@ public class MovieController {
         QueryTimer timer = new QueryTimer();
         timer.start();
         List<Map> movies = mysqlService.findByTypeName(name);
+//        int movie_count = mysqlService.countByTypeName(name);
         timer.end();
 
-        QueryTimer hive_timer = new QueryTimer();
-        hive_timer.start();
-        List<Map> hive_movies = hiveService.findByTypeName(name);
-        hive_timer.end();
+//        QueryTimer hive_timer = new QueryTimer();
+//        hive_timer.start();
+//        List<Map> hive_movies = hiveService.findByTypeName(name);
+//        int hive_count = hiveService.countByTypeName(name);
+//        hive_timer.end();
 
         Map map = new HashMap();
         map.put("movie", movies);
         map.put("mysqlTime", timer.getRunTime());
-        map.put("hiveTime", hive_timer.getRunTime());
+//        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
+//        map.put("count", movie_count);
+
         return map;
     }
 
@@ -203,6 +215,73 @@ public class MovieController {
         map.put("mysqlTime", mysql_timer.getRunTime());
         map.put("hiveTime", hive_timer.getRunTime());
         return map;
+    }
+
+    @ResponseBody
+    @RequestMapping("/combine")
+    public Map combineSearch(@RequestParam(name = "year") int year,
+                             @RequestParam(name = "month") int month,
+                             @RequestParam(name = "season") int season,
+                             @RequestParam(name = "day") int day,
+                             @RequestParam(name = "weekday") int weekday,
+                             @RequestParam(name = "actor") String actor,
+                             @RequestParam(name = "director") String director,
+                             @RequestParam(name = "type") String type,
+                             @RequestParam(name = "name") String name) throws SQLException {
+        QueryTimer mysql_timer = new QueryTimer();
+        mysql_timer.start();
+        List<Map> movies = mysqlService.findByMovieInfo(year, month, season, day, actor, director, type, name);
+        mysql_timer.end();
+
+        Map map = new HashMap();
+        map.put("movie", movies);
+        map.put("mysqlTime", mysql_timer.getRunTime());
+//        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
+
+        return map;
+
+    }
+
+    @ResponseBody
+    @RequestMapping("/movieWord")
+    public Map movieWordSearch(@RequestParam(name = "name") String name) {
+
+        QueryTimer mysql_timer = new QueryTimer();
+        mysql_timer.start();
+        mysql_timer.end();
+
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<Integer> arrayList1 = new ArrayList<>();
+
+        arrayList.add("test3");
+        arrayList.add("test4");
+        arrayList.add("test5");
+        arrayList.add("test6");
+        arrayList.add("test7");
+        arrayList.add("test8");
+        arrayList.add("test9");
+        arrayList.add("test10");
+        arrayList.add("test11");
+        arrayList.add("test12");
+        arrayList.add("test13");
+        arrayList.add("test14");
+
+        Map map = new HashMap();
+        map.put("movie", arrayList1);
+        map.put("mysqlTime", mysql_timer.getRunTime());
+//        map.put("hiveTime", hive_timer.getRunTime());
+        map.put("hiveTime", 1000);
+        map.put("words", arrayList);
+
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping("/testInt")
+    public boolean test(@RequestParam Integer season){
+        Integer test = season;
+        return true;
     }
 }
 

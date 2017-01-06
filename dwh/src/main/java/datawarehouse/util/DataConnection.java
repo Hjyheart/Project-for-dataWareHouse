@@ -11,9 +11,7 @@ public class DataConnection {
 
     private static final String mysql_driver = "com.mysql.jdbc.Driver";
     private static final String mysql_url = "jdbc:mysql://10.60.42.202:3306/comment";
-    //    private static final String mysql_url = "jdbc:mysql://192.168.1.111:3306/datawarehouse";
     private static final String mysql_user = "root";
-    //    private static final String mysql_password = "qianyu123";
     private static final String mysql_password = "GCers+518";
 
     private static final String hive_driver = "org.apache.hive.jdbc.HiveDriver";

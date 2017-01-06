@@ -1,8 +1,8 @@
 /**
- * Created by hongjiayong on 2017/1/1.
+ * Created by hongjiayong on 2017/1/6.
  */
-app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
-    var name_data = [
+app.controller('yunCtrl', ['$scope', '$http', function ($scope, $http) {
+    var yun_data = [
         {
             key: 'mysql',
             nonStackable: true,
@@ -13,10 +13,13 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
             nonStackable: true,
             values: []
         }
+
     ];
+
     $scope.results = [];
     $scope.movies = null;
-    $scope.movieName = '';
+    $scope.words =null;
+
 
     this.$onInit = function () {
 
@@ -24,8 +27,8 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
 
     // 绘制比较图表
     function makeChartTimeCompare(objS, objH) {
-        name_data[0].values.push(objS);
-        name_data[1].values.push(objH);
+        yun_data[0].values.push(objS);
+        yun_data[1].values.push(objH);
 
         nv.addGraph({
             generate: function() {
@@ -39,7 +42,7 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
                 chart.dispatch.on('renderEnd', function(){
                     console.log('Render Complete');
                 });
-                var svg = d3.select('#compare svg').datum(name_data);
+                var svg = d3.select('#compare svg').datum(yun_data);
                 console.log('calling chart');
                 svg.transition().duration(0).call(chart);
                 return chart;
@@ -60,18 +63,21 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
     };
 
 
-    // 按名称查找
-    $scope.nameSearch = function () {
+    // 单词云查找
+    $scope.yunSearch = function () {
         if ($('#movie-name').val() !== ''){
             $http({
                 method: 'POST',
-                url: 'http://localhost:8080/movie/findByName',
+                url: 'http://localhost:8080/movie/movieWord',
                 params:{
                     'name': $('#movie-name').val()
                 }
             }).then( res=>{
                 console.log(res.data);
                 $scope.movies = res.data.movie;
+                $scope.words = res.data.words;
+                window.clearInterval(yunflag);
+                mcList = [];
                 var result = {
                     'name': $('#movie-name').val(),
                     'count': res.data.movie.length,
@@ -95,5 +101,11 @@ app.controller('nameCtrl', ['$scope', '$http', function ($scope, $http) {
             })
         }
     };
+
+    // 展示单词云
+    $scope.display = function () {
+        start();
+    }
+
 
 }]);

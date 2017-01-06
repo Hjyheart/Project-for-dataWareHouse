@@ -4,7 +4,6 @@ import datawarehouse.model.Movie;
 import datawarehouse.util.DataConnection;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +18,150 @@ import java.util.Map;
  */
 @Service
 public class MovieServiceHiveImpl implements MovieService {
+    ////    @Override
+////    public int countMovieByTime(int year) throws SQLException {
+////        Connection connection = DataConnection.getConnection("hive");
+////        String str = "select count(*) from movie, time where time.year=? and time.id = movie.time_id";
+////        PreparedStatement statement = connection.prepareStatement(str);
+////
+////        statement.setInt(1, year);
+////        ResultSet resultSet = statement.executeQuery();
+////
+////        int count = resultSet.getInt(1);
+////        connection.close();
+////        return count;
+////    }
+//    @Override
+//    public int countMovieByTime(int year) throws SQLException {
+//        Connection connection = DataConnection.getConnection("hive");
+//        String str = "select count(*) from movies where movies.year=?";
+//        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setInt(1, year);
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        int count = resultSet.getInt(1);
+//        connection.close();
+//        return count;
+//    }
+//
+//    @Override
+//    public int countMovieByTime(int year, int month) throws SQLException {
+//        Connection connection = DataConnection.getConnection("hive");
+//        String str = "select count(*) from movie, time " +
+//                "where time.year=? and time.month=? and time.id = movie.time_id";
+//        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setInt(1, year);
+//        statement.setInt(2, month);
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        int count = resultSet.getInt(1);
+//        connection.close();
+//        return count;
+//    }
+//
+//    @Override
+//    public int countMovieByTime(int year, List<Integer> months) throws SQLException {
+//        Integer min = months.get(0);
+//        Integer max = months.get(1);
+//        Connection connection = DataConnection.getConnection("hive");
+//        String str = "select count(*) from movie, time " +
+//                "where time.year=? and time.month>? and this.month<? and time.id = movie.time_id";
+//        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setInt(1, year);
+//        statement.setInt(2, min);
+//        statement.setInt(3, max);
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        int count = resultSet.getInt(1);
+//        connection.close();
+//        return count;
+//    }
+//
+//    @Override
+//    public int countMovieByTime(int year, int month, int day) throws SQLException {
+//        Connection connection = DataConnection.getConnection("hive");
+//        String str = "select count(*) from movie, time " +
+//                "where time.year=? and time.month=? and this.day=? and time.id = movie.time_id";
+//        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setInt(1, year);
+//        statement.setInt(2, month);
+//        statement.setInt(3, day);
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        int count = resultSet.getInt(1);
+//        connection.close();
+//        return count;
+//    }
+//
+//    @Override
+//    public List<Movie> findMovieByName(String movieName) throws SQLException {
+//        Connection connection = DataConnection.getConnection("hive");
+//        String str = "select title, score, runtime from movie where movie.title like ?";
+//        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setString(1, "%"+movieName+"%");
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        List<Movie> movieList = new ArrayList<>();
+//
+//        while (resultSet.next()) {
+//            String title = resultSet.getString(1);
+//            BigDecimal score = resultSet.getBigDecimal(2);
+//            BigDecimal runTime = resultSet.getBigDecimal(3);
+//
+//            Movie movie = new Movie();
+//            movieList.add(movie);
+//        }
+//        return movieList;
+//    }
+//
+//    @Override
+//    public List<Movie> findMovieByDirectorName(String directorName) throws SQLException {
+//        Connection connection = DataConnection.getConnection("hive");
+//        String str = "select movie.title, movie.score from director join movie on director.id = movie.director_id " +
+//                "where movie.title=?";
+//        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setString(1, directorName);
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        List<Movie> movieList = new ArrayList<>();
+//
+//        while (resultSet.next()) {
+//            String title = resultSet.getString(1);
+//            BigDecimal score = resultSet.getBigDecimal(2);
+////            BigDecimal runTime = resultSet.getBigDecimal(3);
+//
+//            Movie movie = new Movie();
+//            movieList.add(movie);
+//        }
+//        return movieList;
+//    }
+//
+//    @Override
+//    public List<Map> findByActorName(String actorName) throws SQLException {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Map> findByTypeName(String typeName) throws SQLException {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Map> countByType() throws SQLException {
+//        return null;
+//    }
+//
+//    @Override
+//    public int countByTypeName(String name) throws SQLException {
+//        return 0;
+//    }
+
     //    @Override
 //    public int countMovieByTime(int year) throws SQLException {
 //        Connection connection = DataConnection.getConnection("hive");
@@ -32,6 +175,7 @@ public class MovieServiceHiveImpl implements MovieService {
 //        connection.close();
 //        return count;
 //    }
+
     @Override
     public int countMovieByTime(int year) throws SQLException {
         Connection connection = DataConnection.getConnection("hive");
@@ -39,23 +183,40 @@ public class MovieServiceHiveImpl implements MovieService {
         PreparedStatement statement = connection.prepareStatement(str);
 
         statement.setInt(1, year);
-        ResultSet resultSet = statement.executeQuery();
-
+        statement.executeQuery();
+        ResultSet resultSet = statement.getResultSet();
+        resultSet.next();
         int count = resultSet.getInt(1);
         connection.close();
         return count;
     }
 
+//    @Override
+//    public int countMovieByTime(int year, int month) throws SQLException {
+//        Connection connection = DataConnection.getConnection("hive");
+//        String str = "select count(*) from movie, time " +
+//                "where time.year=? and time.month=? and time.id = movie.time_id";
+//        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setInt(1, year);
+//        statement.setInt(2, month);
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        int count = resultSet.getInt(1);
+//        connection.close();
+//        return count;
+//    }
+
     @Override
     public int countMovieByTime(int year, int month) throws SQLException {
         Connection connection = DataConnection.getConnection("hive");
-        String str = "select count(*) from movie, time " +
-                "where time.year=? and time.month=? and time.id = movie.time_id";
+        String str = "select count(*) from movies where movies.year=? and movies.month=?";
         PreparedStatement statement = connection.prepareStatement(str);
 
         statement.setInt(1, year);
         statement.setInt(2, month);
         ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
 
         int count = resultSet.getInt(1);
         connection.close();
@@ -67,14 +228,15 @@ public class MovieServiceHiveImpl implements MovieService {
         Integer min = months.get(0);
         Integer max = months.get(1);
         Connection connection = DataConnection.getConnection("hive");
-        String str = "select count(*) from movie, time " +
-                "where time.year=? and time.month>? and this.month<? and time.id = movie.time_id";
+        String str = "select count(*) from movies " +
+                "where movies.year=? and movies.month>? and movies.month<?";
         PreparedStatement statement = connection.prepareStatement(str);
 
         statement.setInt(1, year);
         statement.setInt(2, min);
         statement.setInt(3, max);
         ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
 
         int count = resultSet.getInt(1);
         connection.close();
@@ -84,14 +246,15 @@ public class MovieServiceHiveImpl implements MovieService {
     @Override
     public int countMovieByTime(int year, int month, int day) throws SQLException {
         Connection connection = DataConnection.getConnection("hive");
-        String str = "select count(*) from movie, time " +
-                "where time.year=? and time.month=? and this.day=? and time.id = movie.time_id";
+        String str = "select count(*) from movies " +
+                "where movies.year=? and movies.month=? and movies.day=?";
         PreparedStatement statement = connection.prepareStatement(str);
 
         statement.setInt(1, year);
         statement.setInt(2, month);
         statement.setInt(3, day);
         ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
 
         int count = resultSet.getInt(1);
         connection.close();
@@ -101,7 +264,8 @@ public class MovieServiceHiveImpl implements MovieService {
     @Override
     public List<Movie> findMovieByName(String movieName) throws SQLException {
         Connection connection = DataConnection.getConnection("hive");
-        String str = "select title, score, runtime from movie where movie.title like ?";
+//        String str = "select title, score, runtime from movies where movie.title like ?";
+        String str = "select title from movies where movies.title like ?";
         PreparedStatement statement = connection.prepareStatement(str);
 
         statement.setString(1, "%"+movieName+"%");
@@ -111,35 +275,38 @@ public class MovieServiceHiveImpl implements MovieService {
 
         while (resultSet.next()) {
             String title = resultSet.getString(1);
-            BigDecimal score = resultSet.getBigDecimal(2);
-            BigDecimal runTime = resultSet.getBigDecimal(3);
+//            BigDecimal score = resultSet.getBigDecimal(2);
+//            BigDecimal runTime = resultSet.getBigDecimal(3);
 
             Movie movie = new Movie();
+            movie.setTitle(title);
             movieList.add(movie);
         }
+        connection.close();
         return movieList;
     }
 
     @Override
-    public List<Movie> findMovieByDirectorName(String directorName) throws SQLException {
+    public List<Map> findMovieByDirectorName(String directorName) throws SQLException {
         Connection connection = DataConnection.getConnection("hive");
-        String str = "select movie.title, movie.score from directors join movie on directors.id = movie.director_id " +
+        String str = "select movie.title, movie.score from director join movie on director.id = movie.director_id " +
                 "where movie.title=?";
         PreparedStatement statement = connection.prepareStatement(str);
 
         statement.setString(1, directorName);
         ResultSet resultSet = statement.executeQuery();
 
-        List<Movie> movieList = new ArrayList<>();
+        List<Map> movieList = new ArrayList<>();
 
         while (resultSet.next()) {
             String title = resultSet.getString(1);
-            BigDecimal score = resultSet.getBigDecimal(2);
+//            BigDecimal score = resultSet.getBigDecimal(2);
 //            BigDecimal runTime = resultSet.getBigDecimal(3);
 
-            Movie movie = new Movie();
+            Map movie = new HashMap();
             movieList.add(movie);
         }
+        connection.close();
         return movieList;
     }
 
@@ -189,6 +356,21 @@ public class MovieServiceHiveImpl implements MovieService {
         return movies;
     }
 
+    @Override
+    public Map countByType(String name) throws SQLException  {
+        Connection connection = DataConnection.getConnection("hive");
+        String str = "select count(*) from movie_type, type " +
+                "where type.id=movie_type.type_id and type.name=? or";
+        PreparedStatement statement = connection.prepareStatement(str);
+//
+//        statement.setString(1, typeName);
+//        ResultSet resultSet = statement.executeQuery();
+//
+//        connection.close();
+//        return movies;
+        Map map = new HashMap();
+        return map;
+    }
 
     @Override
     public int countByTypeName(String name) throws SQLException {
@@ -202,6 +384,16 @@ public class MovieServiceHiveImpl implements MovieService {
         int count = resultSet.getInt(1);
         connection.close();
         return count;
+    }
+
+    @Override
+    public List<Map> findByMovieInfo(Integer year, Integer month, Integer season, Integer day, String actor, String director, String type, String name) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<String> findMovieWord(String name) {
+        return null;
     }
 }
 

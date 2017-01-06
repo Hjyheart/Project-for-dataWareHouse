@@ -13,58 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
     <script src="/js/mdui.min.js"></script>
     <script src="/nv.d3.min.js"></script>
-    <script src="/tags.js"></script>
     <script src="/stream_layers.js"></script>
     <script src="/app.js"></script>
     <script src="/combineCtrl.js"></script>
-
-    <style>
-        svg{
-            margin: 0px;
-            padding: 0px;
-            height: 100%;
-            width: 100%;
-        }
-        #tagsList {
-
-            position: relative;
-
-            width: 450px;
-
-            height: 450px;
-
-            margin: 150px auto 0;
-
-        }
-
-        #tagsList a {
-
-            position: absolute;
-
-            top: 0px;
-
-            left: 0px;
-
-            font-family: Microsoft YaHei;
-
-            color: #03A9F4;
-
-            font-weight: bold;
-
-            text-decoration: none;
-
-            padding: 3px 6px;
-
-        }
-
-        #tagsList a:hover {
-
-            color: #FF0000;
-
-            letter-spacing: 2px;
-
-        }
-    </style>
 
 </head>
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-blue mdui-theme-accent-blue" ng-app="myApp" ng-controller="combineCtrl">
@@ -93,6 +44,7 @@
                 <a id="actor" href="/actor" class="mdui-list-item mdui-ripple">演员</a>
                 <a id="category" href="/category" class="mdui-list-item mdui-ripple">类别</a>
                 <a id="combine" href="/combine" class="mdui-list-item mdui-ripple mdui-list-item-active">组合查询</a>
+                <a id="yun" href="/yun" class="mdui-list-item mdui-ripple">词频查询</a>
             </div>
         </div>
     </div>
@@ -147,7 +99,7 @@
             </div>
         </div>
         <br/>
-        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" ng-click="timeSearch()">查找</button>
+        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" ng-click="combineSearch()">查找</button>
         <br/>
         <br/>
     </div>
@@ -177,6 +129,34 @@
                     </tbody>
                 </table>
             </div>
+            <ul class="mdui-list" mdui-collapse="{accordion: true}" style="overflow-y: scroll; max-height: 400px">
+                <li class="mdui-collapse-item mdui-collapse-item-close">
+                    <div class="mdui-collapse-item-header mdui-list-item">
+                        <div class="mdui-list-item-content">结果</div>
+                        <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe313;</i>
+                    </div>
+                    <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                        <li class="mdui-list-item">
+                            <div class="mdui-table-fluid">
+                                <table class="mdui-table">
+                                    <thead>
+                                    <tr>
+                                        <th>电影名称</th>
+                                        <th>评分</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="movie in movies">
+                                        <td>{{movie.title}}</td>
+                                        <td>{{movie.score}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -188,23 +168,6 @@
     <div id="chart1" style="height: 600px">
         <h3>月份概况</h3>
         <svg></svg>
-    </div>
-
-
-    <div class="mdui-container">
-        <div class="mdui-col-xs-12">
-            <div id="tagsList">
-
-                <a href="#" title="test">test</a>
-
-                <a href="#" title="test1">test1</a>
-                <a href="#" title="test2">test2</a>
-                <a href="#" title="test3">test3</a>
-                <a href="#" title="test4">test4</a>
-                <a href="#" title="test5">test5</a>
-
-            </div>
-        </div>
     </div>
 
 </div>
