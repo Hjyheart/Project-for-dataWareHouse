@@ -392,7 +392,7 @@ public class MovieServiceHiveImpl implements MovieService {
     }
 
     @Override
-    public List<String> findMovieWord(String name) {
+    public List<Map> findMovieWord(String name) {
         return null;
     }
 }

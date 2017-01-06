@@ -243,39 +243,59 @@ public class MovieController {
 
     }
 
+//    @ResponseBody
+//    @RequestMapping("/movieWord")
+//    public Map movieWordSearch(@RequestParam(name = "name") String name) {
+//
+//        QueryTimer mysql_timer = new QueryTimer();
+//        mysql_timer.start();
+//        mysql_timer.end();
+//
+//        ArrayList<String> arrayList = new ArrayList<>();
+//        ArrayList<Integer> arrayList1 = new ArrayList<>();
+//
+//        arrayList.add("test3");
+//        arrayList.add("test4");
+//        arrayList.add("test5");
+//        arrayList.add("test6");
+//        arrayList.add("test7");
+//        arrayList.add("test8");
+//        arrayList.add("test9");
+//        arrayList.add("test10");
+//        arrayList.add("test11");
+//        arrayList.add("test12");
+//        arrayList.add("test13");
+//        arrayList.add("test14");
+//
+//        Map map = new HashMap();
+//        map.put("movie", arrayList1);
+//        map.put("mysqlTime", mysql_timer.getRunTime());
+////        map.put("hiveTime", hive_timer.getRunTime());
+//        map.put("hiveTime", 1000);
+//        map.put("words", arrayList);
+//
+//        return map;
+//    }
+
     @ResponseBody
     @RequestMapping("/movieWord")
-    public Map movieWordSearch(@RequestParam(name = "name") String name) {
+    public Map movieWordSearch(@RequestParam(name = "name") String name) throws SQLException {
 
         QueryTimer mysql_timer = new QueryTimer();
         mysql_timer.start();
+        List<Map> movies = mysqlService.findMovieWord(name);
         mysql_timer.end();
 
-        ArrayList<String> arrayList = new ArrayList<>();
-        ArrayList<Integer> arrayList1 = new ArrayList<>();
-
-        arrayList.add("test3");
-        arrayList.add("test4");
-        arrayList.add("test5");
-        arrayList.add("test6");
-        arrayList.add("test7");
-        arrayList.add("test8");
-        arrayList.add("test9");
-        arrayList.add("test10");
-        arrayList.add("test11");
-        arrayList.add("test12");
-        arrayList.add("test13");
-        arrayList.add("test14");
-
         Map map = new HashMap();
-        map.put("movie", arrayList1);
+        map.put("word", movies);
         map.put("mysqlTime", mysql_timer.getRunTime());
 //        map.put("hiveTime", hive_timer.getRunTime());
         map.put("hiveTime", 1000);
-        map.put("words", arrayList);
 
         return map;
     }
+
+
 
     @ResponseBody
     @RequestMapping("/testInt")

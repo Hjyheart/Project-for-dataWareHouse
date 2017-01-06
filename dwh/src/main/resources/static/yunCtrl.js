@@ -75,12 +75,11 @@ app.controller('yunCtrl', ['$scope', '$http', function ($scope, $http) {
             }).then( res=>{
                 console.log(res.data);
                 $scope.movies = res.data.movie;
-                $scope.words = res.data.words;
+                $scope.words = res.data.word;
                 window.clearInterval(yunflag);
                 mcList = [];
                 var result = {
                     'name': $('#movie-name').val(),
-                    'count': res.data.movie.length,
                     'mysqlTime': res.data.mysqlTime,
                     'hiveTime' : res.data.hiveTime
                 };

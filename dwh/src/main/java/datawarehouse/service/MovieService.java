@@ -35,5 +35,5 @@ public interface MovieService {
     List<Map> findByMovieInfo(Integer year, Integer month, Integer season, Integer day, String actor,
                               String director, String type, String name) throws SQLException;
 
-    List<String> findMovieWord(String name) throws SQLException;
+    List<Map> findMovieWord(String name) throws SQLException;
 }
