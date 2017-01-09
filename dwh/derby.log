@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Fri Jan 06 20:32:15 CST 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0159-73c3-e51d-000003e0e398 
+Mon Jan 09 15:22:05 CST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0159-821b-02c1-0000059309f0 
 on database directory memory:/Users/hongjiayong/Desktop/dataWareHouse/dwh/testdb with class loader sun.misc.Launcher$AppClassLoader@73c6c3b2 
 Loaded from file:/Users/hongjiayong/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
